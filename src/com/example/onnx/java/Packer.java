@@ -86,7 +86,7 @@ public final class Packer<E extends Enum<E>> {
                     .asDoubleBuffer();
             r = w.asReadOnlyBuffer();
             v = r.duplicate();
-            if (!w.isDirect() || !r.isDirect() || !w.isDirect()) {
+            if (!w.isDirect() || !r.isDirect() || !v.isDirect()) {
                 throw new IllegalStateException("Indirect buffer(s)");
             }
 
