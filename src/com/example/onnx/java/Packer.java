@@ -20,7 +20,7 @@ public final class Packer<E extends Enum<E>> {
     private final int[] offs;       // Ordinal-based lookup of column offsets
     private final EnumSet<E> need;  // Columns required to be in each row
 
-    /** Packer tracks configuration reusable across many buffers. */
+    /** Packer tracks configuration reusable across DoubleStorage instances. */
     public Packer(final LinkedHashSet<E> columns) {
         // Store columns as an array to allow garbage-less iteration
         // Sanity checks that, at runtime, columns was well-formed
@@ -111,6 +111,7 @@ public final class Packer<E extends Enum<E>> {
             for (final E col : cols) m.add(col);  // No garbage
         }
 
+        // TODO Do not permit overwriting a previously supplied value
         /**
          * Relative write of one column to the active row.
          * Value may be ignored if the given column is not stored.
