@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +49,14 @@ public final class Packer<E extends Enum<E>> {
         need = EnumSet.noneOf(enumClass);
         for (final E column : cols) {
             need.add(column);
+        }
+    }
+
+    /** Convenience constructor requiring unique columns as varargs. */
+    public Packer(final E... columns) {
+        this(new LinkedHashSet<>(List.of(columns)));
+        if (cols.length != columns.length) {
+            throw new IllegalArgumentException("Duplicate(s) in columns");
         }
     }
 
