@@ -67,6 +67,11 @@ public final class Packer<E extends Enum<E>> {
         }
     }
 
+    /** Interface through which DoubleStorage can be retrieved. */
+    public interface DoubleObserver<E> {
+        void observe(int row, E Column, double value);
+    }
+
     /** Use outer Packer configuration to pack doubles into direct buffers. */
     public final class DoubleStorage {
 
@@ -119,6 +124,7 @@ public final class Packer<E extends Enum<E>> {
         }
 
         // TODO Do not permit overwriting a previously supplied value
+        // TODO Consider using "pack" and "unpack" instead of put/get
         /**
          * Relative write of one column to the active row.
          * Value may be ignored if the given column is not stored.
@@ -148,14 +154,9 @@ public final class Packer<E extends Enum<E>> {
             }
         }
 
-        /** Interface through which DoubleStorage can be retrieved. */
-        public interface Observer<E> {
-            void observe(int row, E Column, double value);
-        }
-
         /** Absolute read of all columns in rows [begin, end). */
         public void get(
-                final Observer<E> observer,
+                final DoubleObserver<E> observer,
                 final int begin,
                 final int end)
         {
