@@ -33,17 +33,17 @@ final class TestPacker {
 
         // Fill the storage
         assertTrue(s.hasRemaining());
-        s.put(Column.B, 555);
+        s.pack(Column.B, 555);
         assertTrue(s.hasRemaining());
-        s.put(Column.A, 12);  // Ignored
-        s.put(Column.B, 666);
-        s.put(Column.C, 34);  // Ignored
-        s.put(Column.D, 56);  // Ignored
+        s.pack(Column.A, 12);  // Ignored
+        s.pack(Column.B, 666);
+        s.pack(Column.C, 34);  // Ignored
+        s.pack(Column.D, 56);  // Ignored
         assertTrue(s.hasRemaining());
         // A and D ignored while C not supplied
-        s.put(new EnumMap<>(Map.of(Column.A, 1, Column.B, 777, Column.D, 2)));
+        s.pack(new EnumMap<>(Map.of(Column.A, 1, Column.B, 777, Column.D, 2)));
         assertTrue(s.hasRemaining());
-        s.put(Column.B, 888);
+        s.pack(Column.B, 888);
         assertFalse(s.hasRemaining());
 
         // Confirm all rows as expected
@@ -99,19 +99,19 @@ final class TestPacker {
 
         // Fill the storage
         assertTrue(s.hasRemaining());
-        s.put(Column.B, 555);   // Supplied in correct order
-        s.put(Column.A, 1);
-        s.put(Column.C, 1234);  // Ignored
+        s.pack(Column.B, 555);   // Supplied in correct order
+        s.pack(Column.A, 1);
+        s.pack(Column.C, 1234);  // Ignored
         assertTrue(s.hasRemaining());
-        s.put(Column.A, 2);  // Supplied in reversed order
-        s.put(Column.B, 666);
+        s.pack(Column.A, 2);  // Supplied in reversed order
+        s.pack(Column.B, 666);
         assertTrue(s.hasRemaining());
         // D ignored while C not supplied
-        s.put(new EnumMap<>(Map.of(Column.A, 3, Column.B, 777, Column.D, 2)));
+        s.pack(new EnumMap<>(Map.of(Column.A, 3, Column.B, 777, Column.D, 2)));
         assertTrue(s.hasRemaining());
-        s.put(Column.B, 888);
+        s.pack(Column.B, 888);
         assertTrue(s.hasRemaining());  // !hasRemaining until row complete
-        s.put(Column.A, 4);
+        s.pack(Column.A, 4);
         assertFalse(s.hasRemaining());
 
         // Confirm all rows as expected

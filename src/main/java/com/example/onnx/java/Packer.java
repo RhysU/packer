@@ -124,12 +124,11 @@ public final class Packer<E extends Enum<E>> {
         }
 
         // TODO Do not permit overwriting a previously supplied value
-        // TODO Consider using "pack" and "unpack" instead of put/get
         /**
          * Relative write of one column to the active row.
          * Value may be ignored if the given column is not stored.
          */
-        public void put(final E column, final double value) {
+        public void pack(final E column, final double value) {
             final int offset = offs[column.ordinal()];
             if (offset < 0) {
                 return;
@@ -148,14 +147,14 @@ public final class Packer<E extends Enum<E>> {
          * Values may be ignored for columns that are not stored.
          * Throws NullPointerException if any stored value is null.
          */
-        public void put(final Map<E, ? extends Number> values) {
+        public void pack(final Map<E, ? extends Number> values) {
             for (final E column : cols) {
-                put(column, values.get(column).doubleValue());
+                pack(column, values.get(column).doubleValue());
             }
         }
 
         /** Absolute read of all columns in rows [begin, end). */
-        public void get(
+        public void unpack(
                 final DoubleObserver<E> observer,
                 final int begin,
                 final int end)
